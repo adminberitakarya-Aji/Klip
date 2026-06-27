@@ -1,0 +1,14 @@
+{
+  "name": "@klip/api",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@tanstack/react-query": "^5.83.0"
+  },
+  "devDependencies": {
+    "@klip/tsconfig": "workspace:*",
+    "typescript": "^5.8.3"
+  }
+}

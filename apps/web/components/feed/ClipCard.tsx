@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { toast } from "sonner";
 import {
   Heart,
@@ -226,8 +226,7 @@ export function ClipCard({ clip }: { clip: Clip }) {
       {/* Bottom: caption & meta — ✅ FIX: username tanpa @, layout lebih TikTok */}
       <div className="absolute inset-x-0 bottom-16 px-4 pr-20 text-foreground pb-4">
         <Link
-          to="/profile/$handle"
-          params={{ handle: clip.handle.replace(/^@/, "") }}
+          href={`/profile/${clip.handle.replace(/^@/, "")}`}
           className="inline-block text-sm font-bold tracking-tight hover:underline"
         >
           {clip.username} {/* ✅ GANTI: clip.handle → clip.username (tanpa @) */}
@@ -253,8 +252,7 @@ export function ClipCard({ clip }: { clip: Clip }) {
         {/* Avatar + Follow */}
         <div className="relative">
           <Link
-            to="/profile/$handle"
-            params={{ handle: clip.handle.replace(/^@/, "") }}
+            href={`/profile/${clip.handle.replace(/^@/, "")}`}
             aria-label={`Lihat profil ${clip.username}`}
           >
             <img

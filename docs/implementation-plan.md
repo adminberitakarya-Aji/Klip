@@ -269,16 +269,16 @@ klip/
 - [ ] Testing & deploy (Vercel)
 
 ### Phase 3: Mobile (Expo)
-- [ ] Create Expo app di `apps/mobile`
-- [ ] Setup NativeWind + Tailwind
-- [ ] Install dependencies (reanimated, gesture-handler, flash-list)
-- [ ] Migrate components ke React Native
-  - [ ] Feed (FlatList/FlashList + video player)
-  - [ ] Bottom tabs navigation
-  - [ ] Profile screen
-  - [ ] Upload screen
-  - [ ] Inbox screen
-- [ ] Setup Expo Router (file-based)
+- [x] Create Expo app di `apps/mobile`
+- [x] Setup NativeWind + Tailwind
+- [x] Install dependencies (reanimated, gesture-handler, flash-list)
+- [x] Migrate components ke React Native
+  - [x] Feed (FlatList/FlashList + video player)
+  - [x] Bottom tabs navigation
+  - [x] Profile screen
+  - [x] Upload screen
+  - [x] Inbox screen
+- [x] Setup Expo Router (file-based)
 - [ ] Testing di simulator/device
 
 ### Phase 4: EAS Build & Deploy
@@ -291,9 +291,9 @@ klip/
 - [ ] Setup "Get App" button di web → redirect ke download
 
 ### Phase 5: Shared Logic Integration
-- [ ] Connect web & mobile ke shared `@klip/api`
-- [ ] Sync shared `@klip/utils`
-- [ ] Ensure consistent types across platforms
+- [x] Connect web & mobile ke shared `@klip/api`
+- [x] Sync shared `@klip/utils`
+- [x] Ensure consistent types across platforms
 
 ---
 
@@ -478,26 +478,43 @@ Halaman `/download` akan:
 
 ### Struktur yang Sudah Dibuat
 ```
-D:/tik-tok-vibe-26-main/
+D:/Klip/
 ├── apps/
-│   └── web/                    ✅ Next.js app lengkap
-│       ├── app/                ✅ 12 routes (page.tsx)
-│       ├── components/         ✅ feed/ + ui/ (40+ shadcn)
-│       ├── hooks/              ✅ use-mobile.tsx
-│       ├── lib/                ✅ utils, api, config, error
-│       ├── data/               ✅ feed.ts
-│       ├── public/             ✅ klip-logo.png
-│       ├── globals.css         ✅ Tailwind + theme
-│       ├── layout.tsx          ✅ Root layout + SEO
-│       ├── next.config.ts      ✅ Next.js config
+│   ├── web/                    ✅ Next.js app lengkap
+│   │   ├── app/                ✅ 12 routes (page.tsx)
+│   │   ├── components/         ✅ feed/ + ui/ (40+ shadcn)
+│   │   ├── hooks/              ✅ use-mobile.tsx
+│   │   ├── lib/                ✅ utils, api, config, error
+│   │   ├── data/               ✅ feed.ts
+│   │   ├── public/             ✅ klip-logo.png
+│   │   ├── globals.css         ✅ Tailwind + theme
+│   │   ├── layout.tsx          ✅ Root layout + SEO
+│   │   ├── next.config.ts      ✅ Next.js config
+│   │   ├── tailwind.config.ts  ✅ Tailwind config
+│   │   ├── tsconfig.json       ✅ extends @klip/tsconfig
+│   │   ├── package.json        ✅ Dependencies
+│   │   └── components.json     ✅ shadcn/ui config
+│   │
+│   └── mobile/                 ✅ Expo app lengkap
+│       ├── app/                ✅ Expo Router (tabs + dynamic)
+│       │   ├── (tabs)/         ✅ 5 tab screens
+│       │   ├── _layout.tsx     ✅ Root layout + QueryClient
+│       │   └── [handle].tsx    ✅ Dynamic profile
+│       ├── components/         ✅ UI components (Button)
+│       ├── hooks/              ✅ useFeed, useProfile
+│       ├── lib/                ✅ utils (cn, formatNumber)
+│       ├── assets/             ✅ App icons
+│       ├── global.css          ✅ NativeWind + theme
+│       ├── app.json            ✅ Expo config
+│       ├── babel.config.js     ✅ Babel + NativeWind
+│       ├── metro.config.js     ✅ Metro + monorepo
 │       ├── tailwind.config.ts  ✅ Tailwind config
 │       ├── tsconfig.json       ✅ extends @klip/tsconfig
-│       ├── package.json        ✅ Dependencies
-│       └── components.json     ✅ shadcn/ui config
+│       └── package.json        ✅ Dependencies
 ├── packages/
 │   ├── api/                    ✅ Shared API (types + client)
 │   ├── utils/                  ✅ cn, formatNumber, formatDate
-│   └── tsconfig/               ✅ base.json + next.json
+│   └── tsconfig/               ✅ base.json + next.json + expo.json
 ├── turbo.json                  ✅ Turborepo config
 ├── pnpm-workspace.yaml         ✅ Workspace definition
 ├── package.json                ✅ Root workspace
@@ -517,6 +534,8 @@ D:/tik-tok-vibe-26-main/
 2. `pnpm dev` → Jalankan Next.js dev server
 3. Testing & fix issues
 4. Deploy ke Vercel
+5. Setup EAS Build untuk mobile
+6. Testing di simulator/device
 
 ---
 

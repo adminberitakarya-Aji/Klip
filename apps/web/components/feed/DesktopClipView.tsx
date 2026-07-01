@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { toast } from "sonner";
 import {
   Heart,
@@ -180,8 +180,7 @@ export function DesktopClipView({ clip }: { clip: Clip }) {
         {/* Caption row below video */}
         <div className="mt-3 max-w-[420px]">
           <Link
-            to="/profile/$handle"
-            params={{ handle: clip.handle.replace(/^@/, "") }}
+            href={`/profile/${clip.handle.replace(/^@/, "")}`}
             className="text-base font-bold hover:underline"
           >
             {clip.handle}
@@ -216,8 +215,7 @@ export function DesktopClipView({ clip }: { clip: Clip }) {
       <div className="flex flex-col items-center gap-4 pb-24">
         <div className="relative">
           <Link
-            to="/profile/$handle"
-            params={{ handle: clip.handle.replace(/^@/, "") }}
+            href={`/profile/${clip.handle.replace(/^@/, "")}`}
             aria-label={`Profil ${clip.username}`}
           >
             <img

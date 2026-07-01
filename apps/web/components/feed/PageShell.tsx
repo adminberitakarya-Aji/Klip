@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { Link, useRouter } from "@tanstack/react-router";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { SideNav } from "@/components/feed/SideNav";
 
@@ -12,8 +13,8 @@ type Props = {
 export function PageShell({ title, subtitle, children }: Props) {
   const router = useRouter();
   const handleBack = () => {
-    if (window.history.length > 1) router.history.back();
-    else router.navigate({ to: "/" });
+    if (window.history.length > 1) router.back();
+    else router.push("/");
   };
   return (
     <div className="flex min-h-[100dvh] w-full bg-background text-foreground">
@@ -29,7 +30,7 @@ export function PageShell({ title, subtitle, children }: Props) {
             <ChevronLeft className="h-5 w-5" />
           </button>
           <h1 className="truncate text-base font-semibold">{title}</h1>
-          <Link to="/" className="text-xs text-muted-foreground">Beranda</Link>
+          <Link href="/" className="text-xs text-muted-foreground">Beranda</Link>
         </header>
         {/* Desktop header */}
         <header className="hidden border-b border-border px-6 py-5 md:block">

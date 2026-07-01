@@ -11,9 +11,9 @@ import {
   MoreHorizontal,
   Search,
 } from "lucide-react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import klipLogo from "@/assets/klip-logo.png";
 
 type Item = {
   icon: React.ComponentType<{ className?: string }>;
@@ -38,9 +38,9 @@ const items: Item[] = [
 export function SideNav() {
   return (
     <aside className="hidden md:flex h-[100dvh] w-60 lg:w-64 shrink-0 flex-col overflow-y-auto border-r border-border bg-background px-3 py-4">
-      <Link to="/" className="flex items-center gap-2 px-3 pb-4">
+      <Link href="/" className="flex items-center gap-2 px-3 pb-4">
         <img
-          src={klipLogo}
+          src="/klip-logo.png"
           alt="Klip"
           width={32}
           height={32}
@@ -73,7 +73,7 @@ export function SideNav() {
 }
 
 function NavList() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = usePathname();
   return (
     <nav className="mt-2 flex flex-col">
       {items.map((it) => {
@@ -97,8 +97,7 @@ function NavList() {
           return (
             <Link
               key={it.label}
-              to={it.to as "/"}
-              params={it.params as never}
+              href={it.to?.replace(/\$handle/, it.params?.handle ?? "") as string}
               className={className}
             >
               {inner}

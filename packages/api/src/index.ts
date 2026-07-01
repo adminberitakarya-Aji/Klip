@@ -32,7 +32,12 @@ export interface Comment {
   createdAt: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.klip.app";
+declare const process: { env: { [key: string]: string | undefined } } | undefined;
+
+const API_BASE =
+  typeof process !== "undefined" && process?.env?.NEXT_PUBLIC_API_URL
+    ? process.env.NEXT_PUBLIC_API_URL
+    : "https://api.klip.app";
 
 async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${endpoint}`, {

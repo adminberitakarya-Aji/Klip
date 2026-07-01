@@ -1,12 +1,13 @@
 import { Search, Volume2, VolumeX } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useGlobalMuted } from "./ClipCard"; // ✅ ADDED: ambil hook dari ClipCard
 
 export function TopBar() {
   const [tab, setTab] = useState<"fyp">("fyp");
-  const navigate = useNavigate();
+  const router = useRouter();
   const [muted, setMuted] = useGlobalMuted(); // ✅ ADDED: mute global state
 
   return (
@@ -28,13 +29,13 @@ export function TopBar() {
       {/* Center: tab navigasi */}
       <nav className="pointer-events-auto flex items-center gap-5 text-sm font-semibold text-white/70">
         <Link
-          to="/live"
+          href="/live"
           className="relative pb-1 transition hover:text-white"
         >
           LIVE
         </Link>
         <Link
-          to="/following"
+          href="/following"
           className="relative pb-1 transition hover:text-white"
         >
           Mengikuti
@@ -55,7 +56,7 @@ export function TopBar() {
 
       {/* Right: tombol Search */}
       <button
-        onClick={() => navigate({ to: "/explore" })}
+        onClick={() => router.push("/explore")}
         aria-label="Cari"
         className="pointer-events-auto grid h-10 w-10 place-items-center text-white"
       >

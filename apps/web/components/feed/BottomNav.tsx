@@ -1,5 +1,6 @@
 import { Home, Compass, Plus, Inbox, User } from "lucide-react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type Item = {
@@ -18,7 +19,7 @@ const items: (Item | { create: true; label: string; to: string })[] = [
 ];
 
 export function BottomNav() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = usePathname();
   return (
     <nav className="absolute inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-white/10 bg-black/60 px-2 py-2 backdrop-blur-lg">
       {items.map((it, i) => {
@@ -26,7 +27,7 @@ export function BottomNav() {
           return (
             <Link
               key={i}
-              to={it.to as "/"}
+              href={it.to as string}
               aria-label="Buat"
               className="relative grid h-8 w-12 place-items-center"
             >
@@ -57,8 +58,7 @@ export function BottomNav() {
           return (
             <Link
               key={i}
-              to={it.to as "/"}
-              params={it.params as never}
+              href={it.to?.replace(/\$handle/, it.params?.handle ?? "") as string}
               className={className}
             >
               {inner}

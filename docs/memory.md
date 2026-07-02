@@ -4,6 +4,24 @@ Log ini isinya keputusan arsitektur dan hal-hal yang sudah pernah gagal/dicoba, 
 
 ---
 
+## 2026-07-02 — Supabase di-setup sebagai backend
+
+**Keputusan:** Pakai Supabase (PostgreSQL + Auth + Storage) sebagai backend, bukan custom server. Video hosting pakai Supabase Storage (bucket `videos` + `thumbnails`), bukan Mux — cukup untuk prototype, bisa migrasi ke Mux nanti.
+
+**Arsitektur:**
+- `packages/supabase` — shared Supabase client + types + auth helpers
+- `packages/api` — refactor dari fetch REST ke Supabase query langsung
+- SQL migration di `supabase/migrations/001_initial_schema.sql` — 5 tabel (profiles, clips, comments, likes, follows) + RLS policies + storage buckets + auto-create profile trigger + helper functions (`get_feed`, `get_profile_stats`)
+
+**Yang perlu dilakukan manual (butuh credentials):**
+1. Buka Supabase Dashboard → SQL Editor → jalankan `001_initial_schema.sql`
+2. Copy URL + anon key dari Settings → API ke `apps/web/.env.local`
+3. Regenerate types: `npx supabase gen types typescript --local > packages/supabase/src/types.ts`
+
+**Status:** Package `@klip/supabase` sudah dibuat, `@klip/api` sudah refactor ke Supabase, typecheck + lint + build pass.
+
+---
+
 ## 2026-07-02 — `eas.json` dibuat, siap build APK
 
 **Keputusan:** Buat `apps/mobile/eas.json` dengan 3 profile (development/preview/production), semuanya `distribution: "internal"` dan `android.buildType: "apk"` — bukan `app-bundle`. Alasan: target dekat adalah distribusi APK langsung ke tester/UMKM, bukan submit ke Play Store. Kalau nanti perlu Play Store, tinggal ganti `buildType` profile `production` ke `"app-bundle"`.

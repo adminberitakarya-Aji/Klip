@@ -42,6 +42,6 @@ export default [
     },
   },
   {
-    ignores: ["**/android/**", "**/ios/**"],
+    ignores: ["**/android/**", "**/ios/**", "**/metro.config.*"],
   },
 ];

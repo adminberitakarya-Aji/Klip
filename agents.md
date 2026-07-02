@@ -9,7 +9,8 @@ Klip = platform video singkat gaya TikTok untuk promosi UMKM Indonesia. Monorepo
 ```
 apps/web/       → Next.js 15 (App Router)
 apps/mobile/    → Expo SDK 51 (Expo Router)
-packages/api/          → @klip/api — types + API client, dipakai web & mobile
+packages/api/          → @klip/api — API layer (Supabase-backed), dipakai web & mobile
+packages/supabase/     → @klip/supabase — Supabase client + types + auth helpers
 packages/utils/        → @klip/utils — cn(), formatNumber(), formatDate()
 packages/tsconfig/      → @klip/tsconfig — base/next/expo tsconfig
 packages/eslint-config/ → @klip/eslint-config — flat config base/next/react-native
@@ -43,6 +44,7 @@ Jangan ulangi ini:
 2. **`next build` butuh akses internet** untuk fetch font `Space Grotesk` dari Google Fonts (`apps/web/app/layout.tsx`, pakai `next/font/google`). Di sandbox/CI tanpa akses internet ke `fonts.googleapis.com`, build akan gagal dengan error font — ini bukan bug kode, cuma keterbatasan jaringan environment.
 3. **`@klip/api` dan `@klip/utils` harus benar-benar dipakai**, bukan cuma didaftarkan di `package.json`. Pernah ada insiden dua package ini menganggur (unused) setelah refactor besar. Cek dengan `grep -rn "@klip/api\|@klip/utils" apps/` kalau ragu.
 4. **`eas.json` sudah ada** di `apps/mobile/` (3 profile: development/preview/production, semuanya `buildType: "apk"` — bukan `app-bundle`, karena tujuannya distribusi APK langsung bukan Play Store). Sebelum `eas build` bisa jalan, masih perlu `eas login` + `eas init` (link project ke akun EAS, otomatis isi `extra.eas.projectId` di `app.json`) — dua langkah ini butuh kredensial jadi tidak bisa dijalankan agent, harus manual oleh dev.
+5. **Supabase env vars** — `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` harus di-set di `apps/web/.env.local` agar app bisa connect ke database. Tanpa ini, app akan error saat fetch data. Lihat `apps/web/.env.example` untuk formatnya.
 
 ## Konvensi Kode
 
@@ -57,6 +59,7 @@ Jangan ulangi ini:
 1. Baca `docs/implementation-plan.md` untuk arsitektur & roadmap.
 2. Baca `docs/memory.md` untuk histori keputusan & kenapa sesuatu dibuat begitu.
 3. Jalankan `pnpm install && pnpm typecheck && pnpm lint` untuk pastikan baseline bersih sebelum mulai ubah apa pun.
+4. Pastikan Supabase sudah di-setup: SQL migration (`supabase/migrations/001_initial_schema.sql`) sudah dijalankan di Supabase Dashboard, dan env vars sudah di-set di `apps/web/.env.local`.
 
 ## Setelah Selesai Kerja
 

@@ -42,9 +42,7 @@
       }
     },
     "owner": "sabdakarya.dev",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/bab84d14-3bb3-4e93-bb49-d5891cedf5dc"
     }

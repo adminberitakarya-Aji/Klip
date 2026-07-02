@@ -12,6 +12,7 @@ import {
   LogOut,
   FileText,
   ChevronRight,
+  LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -27,7 +28,7 @@ import {
 import { toast } from "sonner";
 
 type Item = {
-  icon: any;
+  icon: LucideIcon;
   label: string;
   to?: string;
   danger?: boolean;

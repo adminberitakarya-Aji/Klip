@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 import {
   Heart,
@@ -218,9 +219,11 @@ export function DesktopClipView({ clip }: { clip: Clip }) {
             href={`/profile/${clip.handle.replace(/^@/, "")}`}
             aria-label={`Profil ${clip.username}`}
           >
-            <img
+            <Image
               src={clip.avatar}
               alt={`Avatar ${clip.username}`}
+              width={48}
+              height={48}
               className="h-12 w-12 rounded-full border border-border object-cover"
             />
           </Link>
@@ -272,9 +275,9 @@ export function DesktopClipView({ clip }: { clip: Clip }) {
         <button
           onClick={() => toast(`♫ ${clip.song}`, { description: "Gunakan suara ini" })}
           aria-label={`Suara: ${clip.song}`}
-          className="mt-2 h-11 w-11 animate-spin-slow overflow-hidden rounded-full border border-border bg-gradient-to-br from-tikpink to-tikcyan p-0.5 active:scale-90 cursor-pointer"
+          className="mt-2 h-11 w-11 animate-spin-slow overflow-hidden rounded-full border border-border bg-gradient-to-br from-tikpink to-tikcyan p-0.5 active:scale-90 transition cursor-pointer"
         >
-          <img src={clip.avatar} alt="" aria-hidden className="h-full w-full rounded-full object-cover" />
+          <Image src={clip.avatar} alt="" aria-hidden width={44} height={44} className="h-full w-full rounded-full object-cover" />
         </button>
       </div>
 

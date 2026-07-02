@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { PageShell } from "@/components/feed/PageShell";
 import { clips } from "@/data/feed";
 
@@ -15,7 +16,7 @@ export default function FollowingPage() {
             className="group rounded-xl border border-border p-3 hover:bg-secondary/40"
           >
             <div className="flex items-center gap-2">
-              <img src={c.avatar} alt={c.username} className="h-10 w-10 rounded-full object-cover" />
+              <Image src={c.avatar} alt={c.username} width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
               <div className="min-w-0">
                 <div className="truncate text-sm font-semibold">{c.username}</div>
                 <div className="truncate text-xs text-muted-foreground">{c.handle}</div>

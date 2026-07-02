@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { PageShell } from "@/components/feed/PageShell";
 import { clips } from "@/data/feed";
 import { Play, TrendingUp } from "lucide-react";
@@ -26,10 +27,12 @@ export default function ExplorePage() {
             key={c.id}
             className="group relative aspect-[9/16] overflow-hidden rounded-lg bg-secondary"
           >
-            <img
+            <Image
               src={c.avatar}
               alt={c.caption}
-              className="h-full w-full object-cover opacity-80 transition group-hover:scale-105"
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+              className="object-cover opacity-80 transition group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute bottom-2 left-2 right-2 text-white">

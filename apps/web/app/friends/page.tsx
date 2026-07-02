@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { PageShell } from "@/components/feed/PageShell";
 import { clips } from "@/data/feed";
 import { UserPlus, MessageSquare } from "lucide-react";
@@ -18,7 +19,7 @@ export default function FriendsPage() {
               href={`/profile/${c.handle.replace(/^@/, "")}`}
               className="shrink-0"
             >
-              <img src={c.avatar} alt={c.username} className="h-12 w-12 rounded-full object-cover" />
+              <Image src={c.avatar} alt={c.username} width={48} height={48} className="h-12 w-12 rounded-full object-cover" />
             </Link>
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-semibold">{c.username}</div>

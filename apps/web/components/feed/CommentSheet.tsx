@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Heart, Send, X } from "lucide-react";
 import type { Clip } from "@/data/feed";
 import { cn } from "@/lib/utils";
@@ -138,9 +139,11 @@ export function CommentSheet({
           <ul className="space-y-4">
             {comments.map((c) => (
               <li key={c.id} className="flex gap-3">
-                <img
+                <Image
                   src={c.avatar}
                   alt=""
+                  width={36}
+                  height={36}
                   className="h-9 w-9 flex-none rounded-full object-cover"
                 />
                 <div className="min-w-0 flex-1">

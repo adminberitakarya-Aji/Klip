@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { PageShell } from "@/components/feed/PageShell";
 import { clips } from "@/data/feed";
 import { Heart, MessageCircle, UserPlus, AtSign } from "lucide-react";
@@ -26,7 +27,7 @@ export default function ActivityPage() {
               className="flex items-center gap-3 rounded-xl p-3 hover:bg-secondary/40"
             >
               <div className="relative shrink-0">
-                <img src={it.avatar} alt={it.username} className="h-11 w-11 rounded-full object-cover" />
+                <Image src={it.avatar} alt={it.username} width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
                 <div className={`absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-background ${it.kind.color}`}>
                   <Icon className="h-3 w-3 fill-current" />
                 </div>

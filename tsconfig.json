@@ -1,11 +1,1 @@
-{
-  "extends": "@klip/tsconfig/base.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@klip/*": ["packages/*/src"]
-    }
-  },
-  "include": ["turbo.json"],
-  "exclude": ["node_modules"]
-}
+{ "extends": "./packages/tsconfig/base.json", "compilerOptions": { "baseUrl": ".", "paths": { "@klip/*": ["packages/*/src"] } }, "include": ["turbo.json"], "exclude": ["node_modules"] }

@@ -12,6 +12,7 @@ import {
   Search,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +40,7 @@ export function SideNav() {
   return (
     <aside className="hidden md:flex h-[100dvh] w-60 lg:w-64 shrink-0 flex-col overflow-y-auto border-r border-border bg-background px-3 py-4">
       <Link href="/" className="flex items-center gap-2 px-3 pb-4">
-        <img
+        <Image
           src="/klip-logo.png"
           alt="Klip"
           width={32}

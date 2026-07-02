@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import {
   Share2,
@@ -97,9 +98,11 @@ export default function ProfilePage() {
         <div className="mx-auto w-full max-w-4xl px-6 py-8">
           {/* Profile header */}
           <header className="flex flex-col gap-5 sm:flex-row sm:items-start">
-            <img
+            <Image
               src={user.avatar}
               alt={`Avatar ${user.username}`}
+              width={128}
+              height={128}
               className="h-28 w-28 shrink-0 rounded-full object-cover sm:h-32 sm:w-32"
             />
             <div className="flex-1 min-w-0">

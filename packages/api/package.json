@@ -2,14 +2,21 @@
   "name": "@klip/api",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@tanstack/react-query": "^5.83.0"
   },
   "devDependencies": {
+    "@klip/eslint-config": "workspace:*",
     "@klip/tsconfig": "workspace:*",
     "@types/node": "^20.0.0",
+    "eslint": "^9.17.0",
     "typescript": "^5.8.3"
   }
 }

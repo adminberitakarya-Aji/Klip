@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useEffect, Suspense } from "react";
 import { ArrowLeft, Send, Search, Smile, Image as ImageIcon, MoreHorizontal } from "lucide-react";
@@ -163,9 +164,11 @@ function InboxContent() {
                     )}
                   >
                     <div className="relative shrink-0">
-                      <img
+                      <Image
                         src={c.avatar}
                         alt={c.username}
+                        width={48}
+                        height={48}
                         className="h-12 w-12 rounded-full object-cover"
                       />
                       {c.online && (
@@ -278,9 +281,11 @@ function ChatView({
           href={`/profile/${conv.handle}`}
           className="flex min-w-0 items-center gap-3"
         >
-          <img
+          <Image
             src={conv.avatar}
             alt={conv.username}
+            width={40}
+            height={40}
             className="h-10 w-10 rounded-full object-cover"
           />
           <div className="min-w-0">

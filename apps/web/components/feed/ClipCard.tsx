@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 import {
   Heart,
@@ -8,8 +9,6 @@ import {
   Bookmark,
   Music2,
   Play,
-  Volume2,
-  VolumeX,
   AlertTriangle,
   Check,
 } from "lucide-react";
@@ -66,7 +65,7 @@ export function ClipCard({ clip }: { clip: Clip }) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
   const [retryKey, setRetryKey] = useState(0);
-  const [muted, setMuted] = useGlobalMuted();
+  const [muted] = useGlobalMuted();
 
   useEffect(() => {
     const el = containerRef.current;
@@ -255,9 +254,11 @@ export function ClipCard({ clip }: { clip: Clip }) {
             href={`/profile/${clip.handle.replace(/^@/, "")}`}
             aria-label={`Lihat profil ${clip.username}`}
           >
-            <img
+            <Image
               src={clip.avatar}
               alt={`Avatar ${clip.username}`}
+              width={48}
+              height={48}
               className="h-12 w-12 rounded-full border-2 border-white object-cover"
             />
           </Link>
@@ -329,10 +330,12 @@ export function ClipCard({ clip }: { clip: Clip }) {
           aria-label={`Suara: ${clip.song}`}
           className="mt-2 h-12 w-12 animate-spin-slow rounded-full border border-white/20 bg-gradient-to-br from-tikpink to-tikcyan p-1 active:scale-90 transition cursor-pointer"
         >
-          <img
+          <Image
             src={clip.avatar}
             alt=""
             aria-hidden
+            width={48}
+            height={48}
             className="h-full w-full rounded-full border-2 border-black object-cover"
           />
         </button>

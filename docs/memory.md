@@ -4,6 +4,23 @@ Log ini isinya keputusan arsitektur dan hal-hal yang sudah pernah gagal/dicoba, 
 
 ---
 
+## 2026-07-02 — `eas.json` dibuat, siap build APK
+
+**Keputusan:** Buat `apps/mobile/eas.json` dengan 3 profile (development/preview/production), semuanya `distribution: "internal"` dan `android.buildType: "apk"` — bukan `app-bundle`. Alasan: target dekat adalah distribusi APK langsung ke tester/UMKM, bukan submit ke Play Store. Kalau nanti perlu Play Store, tinggal ganti `buildType` profile `production` ke `"app-bundle"`.
+
+**Yang masih perlu manual (butuh kredensial, tidak bisa dijalankan agent):**
+```bash
+eas login     # login akun Expo
+eas init      # link project ke akun EAS → auto-isi extra.eas.projectId di app.json
+eas build --profile preview --platform android
+```
+
+**Catatan:** `app.json` belum ada `runtimeVersion` — tidak masalah untuk build APK biasa. Baru perlu ditambahkan kalau nanti pakai **EAS Update** (push update JS tanpa build ulang APK).
+
+**Status:** Gap "eas.json belum ada" di entri 2026-07-02 sebelumnya (Audit menyeluruh) sudah closed.
+
+---
+
 ## 2026-07-02 — Bug tsconfig `ignoreDeprecations` bikin typecheck mati total
 
 **Masalah:** `apps/web/tsconfig.json` punya `"ignoreDeprecations": "6.0"`. TypeScript yang terpasang di project ini adalah 5.9.3, dan versi tersebut tidak mengenali `"6.0"` sebagai value valid untuk opsi ini → `error TS5103: Invalid value for '--ignoreDeprecations'`. Karena Turborepo menjalankan typecheck untuk semua package dalam satu pipeline, ini bikin `pnpm typecheck` gagal total, bukan cuma di `@klip/web`.
@@ -39,6 +56,7 @@ Log ini isinya keputusan arsitektur dan hal-hal yang sudah pernah gagal/dicoba, 
 
 ## Belum Selesai / Next Steps
 
-- [ ] Buat `eas.json` untuk build APK via EAS (profile development/preview/production)
+- [x] Buat `eas.json` untuk build APK via EAS (profile development/preview/production) — selesai 2026-07-02
+- [ ] `eas login` + `eas init` + build APK pertama (manual, butuh kredensial dev)
 - [ ] Testing & deploy web ke Vercel (Phase 2 di implementation-plan.md masih belum dicentang untuk item ini)
 - [ ] Setup backend nyata (saat ini `packages/api` masih fetch ke `https://api.klip.app` placeholder / pakai mock data di `apps/web/data/feed.ts`)

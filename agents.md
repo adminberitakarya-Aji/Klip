@@ -26,6 +26,11 @@ pnpm lint                 # wajib 0 error sebelum commit
 pnpm typecheck             # wajib lolos di semua package sebelum commit
 pnpm build                 # build web (mobile pakai EAS, bukan `build` biasa)
 pnpm format                # prettier --write .
+
+# Mobile — build APK (dari apps/mobile/, butuh login, tidak bisa dijalankan agent):
+eas login
+eas init                    # sekali saja, link project ke akun EAS
+eas build --profile preview --platform android
 ```
 
 Kalau agent bikin perubahan kode, **selalu jalankan `pnpm typecheck` dan `pnpm lint` sebelum bilang selesai**. Jangan asumsikan kode benar cuma karena "terlihat benar".
@@ -37,7 +42,7 @@ Jangan ulangi ini:
 1. **`ignoreDeprecations` di `apps/web/tsconfig.json`** — pernah ke-set ke `"6.0"` (tidak valid untuk TypeScript versi yang terpasang, TS 6.0 belum ada) dan bikin `pnpm typecheck` gagal total di seluruh monorepo dengan `error TS5103`. Sekarang di-set `"5.0"`. Kalau upgrade TypeScript, cek dulu apakah value ini masih valid — cabut kalau nggak perlu lagi.
 2. **`next build` butuh akses internet** untuk fetch font `Space Grotesk` dari Google Fonts (`apps/web/app/layout.tsx`, pakai `next/font/google`). Di sandbox/CI tanpa akses internet ke `fonts.googleapis.com`, build akan gagal dengan error font — ini bukan bug kode, cuma keterbatasan jaringan environment.
 3. **`@klip/api` dan `@klip/utils` harus benar-benar dipakai**, bukan cuma didaftarkan di `package.json`. Pernah ada insiden dua package ini menganggur (unused) setelah refactor besar. Cek dengan `grep -rn "@klip/api\|@klip/utils" apps/` kalau ragu.
-4. **`eas.json` belum ada** di `apps/mobile/`. Sebelum jalankan `eas build`, file ini harus dibuat dulu (profile development/preview/production).
+4. **`eas.json` sudah ada** di `apps/mobile/` (3 profile: development/preview/production, semuanya `buildType: "apk"` — bukan `app-bundle`, karena tujuannya distribusi APK langsung bukan Play Store). Sebelum `eas build` bisa jalan, masih perlu `eas login` + `eas init` (link project ke akun EAS, otomatis isi `extra.eas.projectId` di `app.json`) — dua langkah ini butuh kredensial jadi tidak bisa dijalankan agent, harus manual oleh dev.
 
 ## Konvensi Kode
 

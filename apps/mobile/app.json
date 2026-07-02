@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.klip.app"
@@ -27,7 +29,24 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router"],
-    "scheme": "klip"
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "klip",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "bab84d14-3bb3-4e93-bb49-d5891cedf5dc"
+      }
+    },
+    "owner": "sabdakarya.dev",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bab84d14-3bb3-4e93-bb49-d5891cedf5dc"
+    }
   }
 }

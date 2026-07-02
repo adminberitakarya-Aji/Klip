@@ -2,6 +2,7 @@
 // Config for the Next.js app. `eslint-config-next` doesn't ship a flat
 // config yet, so we bridge it in via FlatCompat.
 import { FlatCompat } from "@eslint/eslintrc";
+import nextPlugin from "@next/eslint-plugin-next";
 import base from "./base.js";
 
 const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
@@ -11,8 +12,12 @@ export default [
   ...base,
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
+    plugins: {
+      "@next/next": nextPlugin,
+    },
     rules: {
-      // Next's own config already covers React/JSX + web-vitals concerns.
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
       // Add project-specific overrides here as they come up.
     },
   },

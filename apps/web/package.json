@@ -68,8 +68,8 @@
     "@klip/eslint-config": "workspace:*",
     "@klip/tsconfig": "workspace:*",
     "@types/node": "^22.16.5",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
     "eslint": "^9.17.0",
     "postcss": "^8.4.38",
     "typescript": "^5.8.3"

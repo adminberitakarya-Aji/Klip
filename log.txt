@@ -1,0 +1,58 @@
+Running "expo doctor"
+Running 16 checks on your project...
+15/16 checks passed. 1 checks failed. Possible issues detected:
+Use the --verbose flag to see more details about passed checks.
+
+✖ Check for app config fields that may not be synced in a non-CNG project
+This project contains native project folders but also has native configuration properties in app.json, indicating it is configured to use Prebuild. When the android/ios folders are present, EAS Build will not sync the following properties: orientation, icon, userInterfaceStyle, splash, ios, android, plugins, scheme. 
+
+Advice:
+Add '/android' to your .gitignore file if you intend to use CNG / Prebuild. Learn more: https://docs.expo.dev/workflow/prebuild/#usage-with-eas-build
+1 check failed, indicating possible issues with the project.
+Command "expo doctor" failed.
+npx -y expo-doctor exited with non-zero code: 1
+
+Running 'gradlew :app:assembleRelease' in /home/expo/workingdir/build/apps/mobile/android
+Downloading https://services.gradle.org/distributions/gradle-8.8-all.zip
+10%
+20%.
+30%.
+40%.
+50%.
+60%.
+70%.
+80%.
+90%.
+100%
+Welcome to Gradle 8.8!
+Here are the highlights of this release:
+ - Running Gradle on Java 22
+ - Configurable Gradle daemon JVM
+- Improved IDE performance for large projects
+For more details see https://docs.gradle.org/8.8/release-notes.html
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build
+FAILURE: Build failed with an exception.
+* Where:
+Settings file '/home/expo/workingdir/build/apps/mobile/android/settings.gradle' line: 13
+* What went wrong:
+Error resolving plugin [id: 'com.facebook.react.settings']
+> Included build '/home/expo/workingdir/build/apps/mobile/android/null' does not exist.
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+BUILD FAILED in 12s
+FAILURE: Build failed with an exception.
+* What went wrong:
+Projects for build ':' have not been registered yet.
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+BUILD FAILED in 12s
+Error: Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.
+
+Build failed: Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.

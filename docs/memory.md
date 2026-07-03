@@ -4,6 +4,32 @@ Log ini isinya keputusan arsitektur dan hal-hal yang sudah pernah gagal/dicoba, 
 
 ---
 
+## 2026-07-03 — Fix permanen: hapus `baseUrl` total dari tsconfig (bukan tambal `ignoreDeprecations`)
+
+**Masalah:** Editor VS Code menunjukkan error deprecation lagi soal `baseUrl` di `apps/web/tsconfig.json`, dengan pesan yang menyarankan `"ignoreDeprecations": "6.0"`. Ini muncul lagi karena TypeScript 6.0 **baru resmi rilis** (awal Juli 2026) dan benar-benar men-deprecate `baseUrl` — beda dari kejadian sebelumnya (2026-07-02) waktu CLI project masih TS 5.9.3 yang belum mengenal value `"6.0"`.
+
+**Kenapa nggak sekadar pasang `ignoreDeprecations: "6.0"`:** itu cuma nunda masalah. TypeScript 7.0 (rilis native compiler berikutnya) akan **menghapus total** dukungan `baseUrl`, jadi `ignoreDeprecations` cuma kerja sampai upgrade TS berikutnya, lalu masalahnya balik lagi dengan versi yang lebih mendesak.
+
+**Fix permanen:** Hapus `baseUrl` sepenuhnya dari `apps/web/tsconfig.json` dan `apps/mobile/tsconfig.json`. Karena nilainya cuma `"."` (root project, sama dengan lokasi file tsconfig), `paths: {"@/*": ["./*"]}` tetap resolve sama persis tanpa `baseUrl` — TypeScript otomatis pakai lokasi file config sebagai root kalau `baseUrl` tidak diset. Tidak ada perubahan perilaku, `pnpm typecheck` tetap lolos bersih di semua package.
+
+**Pelajaran:** Untuk deprecation TypeScript yang "cuma dipakai sebagai prefix `paths`" (kasus paling umum), solusi yang benar hampir selalu **hapus opsinya**, bukan suppress dengan `ignoreDeprecations`. `ignoreDeprecations` cocok dipakai kalau memang butuh waktu migrasi bertahap di codebase besar, bukan untuk proyek kecil yang bisa langsung dibenerin dalam satu baris.
+
+---
+
+## 2026-07-03 — Tombol "Get App" di web di-wire ke link download APK
+
+**Sebelum:** Tombol "Get App" di `apps/web/app/page.tsx` (top-right bar versi desktop) cuma `toast("Tautan unduh aplikasi dikirim")` — placeholder, tidak benar-benar mengarahkan ke mana pun.
+
+**Sekarang:** Tombol itu buka `APK_DOWNLOAD_URL` (konstanta di atas `apps/web/app/page.tsx`) di tab baru — saat ini di-set ke link build EAS profile `preview`.
+
+**⚠️ Penting — ini solusi sementara:**
+- Link build EAS itu **per-build dan bisa expired/berganti** setiap kali `eas build` baru dijalankan. Tiap kali ada build APK baru untuk dirilis ke tester, `APK_DOWNLOAD_URL` di `apps/web/app/page.tsx` harus di-update manual.
+- Untuk jangka panjang, ganti ke salah satu: (a) link Play Store setelah publish resmi, atau (b) landing page distribusi APK permanen yang auto-update ke build terbaru (misal lewat EAS Update channel atau halaman redirect sendiri).
+
+**Belum ada:** Tombol "Get App" versi mobile-nya sendiri (kalau nanti dibutuhkan link balik dari app ke web, atau sebaliknya) — belum ada requirement untuk itu.
+
+---
+
 ## 2026-07-03 — Build APK pertama gagal: bug nativewind 4.2.x `react-native-worklets`
 
 **Masalah:** Build EAS pertama (`eas build --profile preview --platform android`) lolos sampai tahap Gradle compile, tapi gagal di `createBundleReleaseJsAndAssets` dengan error:

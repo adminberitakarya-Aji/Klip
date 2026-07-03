@@ -39,7 +39,7 @@ Kalau agent bikin perubahan kode, **selalu jalankan `pnpm typecheck` dan `pnpm l
 
 Jangan ulangi ini:
 
-1. **`ignoreDeprecations` di `apps/web/tsconfig.json`** — pernah ke-set ke `"6.0"` (tidak valid untuk TypeScript versi yang terpasang, TS 6.0 belum ada) dan bikin `pnpm typecheck` gagal total di seluruh monorepo dengan `error TS5103`. Sekarang di-set `"5.0"`. Kalau upgrade TypeScript, cek dulu apakah value ini masih valid — cabut kalau nggak perlu lagi.
+1. **`baseUrl` sudah DIHAPUS TOTAL dari `apps/web/tsconfig.json` dan `apps/mobile/tsconfig.json`** — jangan ditambahkan lagi. TypeScript 6.0 (rilis awal Juli 2026) resmi men-deprecate `baseUrl`, dan akan dihapus total di TS 7.0. Riwayatnya: sempat dicoba `"ignoreDeprecations": "6.0"` lalu `"5.0"` sebagai tambal sulam, tapi solusi permanennya cukup **hapus `baseUrl` sepenuhnya** — karena `baseUrl`-nya cuma `"."` (prefix kosong), `paths: {"@/*": ["./*"]}` tetap resolve identik tanpa `baseUrl` (TypeScript otomatis pakai lokasi file tsconfig sebagai root kalau `baseUrl` tidak ada). Kalau editor (VS Code) masih nunjukin warning deprecated soal `baseUrl`, cek dulu apakah `baseUrl` beneran hilang dari file — jangan buru-buru nambah `ignoreDeprecations`.
 2. **`next build` butuh akses internet** untuk fetch font `Space Grotesk` dari Google Fonts (`apps/web/app/layout.tsx`, pakai `next/font/google`). Di sandbox/CI tanpa akses internet ke `fonts.googleapis.com`, build akan gagal dengan error font — ini bukan bug kode, cuma keterbatasan jaringan environment.
 3. **`@klip/api` dan `@klip/utils` harus benar-benar dipakai**, bukan cuma didaftarkan di `package.json`. Pernah ada insiden dua package ini menganggur (unused) setelah refactor besar. Cek dengan `grep -rn "@klip/api\|@klip/utils" apps/` kalau ragu.
 4. **`eas.json` sudah ada** di `apps/mobile/` (3 profile: development/preview/production, semuanya `buildType: "apk"` — bukan `app-bundle`, karena tujuannya distribusi APK langsung bukan Play Store). Sebelum `eas build` bisa jalan, masih perlu `eas login` + `eas init` (link project ke akun EAS, otomatis isi `extra.eas.projectId` di `app.json`) — dua langkah ini butuh kredensial jadi tidak bisa dijalankan agent, harus manual oleh dev.
@@ -51,6 +51,7 @@ Jangan ulangi ini:
 - **Feed components** (`apps/web/components/feed/*`) = hasil migrasi 1:1 dari codebase lama (TanStack Start). Kalau ubah, cek `docs/implementation-plan.md` bagian "File Mapping" dulu supaya tahu asal-usulnya.
 - **Shared logic** (types, API calls, formatters) masuk `packages/api` atau `packages/utils` — **bukan** di-duplicate antara `apps/web` dan `apps/mobile`.
 - **Platform-specific** (UI, routing, styling) tetap terpisah web vs mobile — jangan coba share komponen visual lintas platform.
+- **`APK_DOWNLOAD_URL`** di `apps/web/app/page.tsx` (tombol "Get App") itu link build EAS sementara, per-build — update manual tiap kali ada build APK baru untuk dirilis. Lihat `docs/memory.md` entri 2026-07-03 untuk detail & rencana jangka panjang.
 - Komentar kode boleh Bahasa Inggris (ikuti gaya file yang sudah ada), dokumentasi (`docs/`, `agents.md`) boleh Bahasa Indonesia.
 
 ## Sebelum Mulai Kerja

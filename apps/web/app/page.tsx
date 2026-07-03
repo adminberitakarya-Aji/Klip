@@ -30,6 +30,12 @@ import { BottomNav } from "@/components/feed/BottomNav";
 import { SideNav } from "@/components/feed/SideNav";
 import { clips } from "@/data/feed";
 
+// TODO: Link build EAS ini bersifat sementara & per-build (akan expired/berganti
+// tiap kali build APK baru dibuat). Ganti ke link Play Store setelah publish resmi,
+// atau ke landing page distribusi APK permanen. Lihat docs/memory.md untuk histori.
+const APK_DOWNLOAD_URL =
+  "https://expo.dev/accounts/sabdakarya.dev/projects/klip/builds/46fb2f98-bfdc-48d1-a009-9241635decc8";
+
 export default function FeedPage() {
   const [index, setIndex] = useState(0);
   const clip = clips[index];
@@ -64,7 +70,7 @@ export default function FeedPage() {
             <Coins className="h-4 w-4" /> Get Coins
           </button>
           <button
-            onClick={() => toast("Tautan unduh aplikasi dikirim")}
+            onClick={() => window.open(APK_DOWNLOAD_URL, "_blank", "noopener,noreferrer")}
             className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold hover:bg-secondary"
           >
             <Smartphone className="h-4 w-4" /> Get App

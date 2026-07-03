@@ -4,21 +4,22 @@ Log ini isinya keputusan arsitektur dan hal-hal yang sudah pernah gagal/dicoba, 
 
 ---
 
-## 2026-07-02 — Supabase di-setup sebagai backend
+## 2026-07-03 — Build APK pertama gagal: bug nativewind 4.2.x `react-native-worklets`
 
-**Keputusan:** Pakai Supabase (PostgreSQL + Auth + Storage) sebagai backend, bukan custom server. Video hosting pakai Supabase Storage (bucket `videos` + `thumbnails`), bukan Mux — cukup untuk prototype, bisa migrasi ke Mux nanti.
+**Masalah:** Build EAS pertama (`eas build --profile preview --platform android`) lolos sampai tahap Gradle compile, tapi gagal di `createBundleReleaseJsAndAssets` dengan error:
+```
+Cannot find module 'react-native-worklets/plugin'
+Require stack: ... react-native-css-interop/dist/metro/transformer.js ...
+```
 
-**Arsitektur:**
-- `packages/supabase` — shared Supabase client + types + auth helpers
-- `packages/api` — refactor dari fetch REST ke Supabase query langsung
-- SQL migration di `supabase/migrations/001_initial_schema.sql` — 5 tabel (profiles, clips, comments, likes, follows) + RLS policies + storage buckets + auto-create profile trigger + helper functions (`get_feed`, `get_profile_stats`)
+**Root cause:** `apps/mobile/package.json` menulis `"nativewind": "^4.0.0"` (range, bukan versi terkunci). Waktu `eas build` resolve dependency, nativewind ke-resolve ke **4.2.6** — versi ini punya bug dari `react-native-css-interop` yang butuh package `react-native-worklets`, padahal package itu tidak pernah jadi dependency eksplisit di project mana pun yang kena bug ini. Ini **bug upstream nativewind yang sudah dikonfirmasi luas** (GitHub issue nativewind #1574, #1580; react-native-reanimated #8239, #8242), bukan kesalahan konfigurasi kita, dan tidak bisa di-fix dengan install `react-native-worklets` manual (sudah dicoba banyak orang, tetap gagal).
 
-**Yang perlu dilakukan manual (butuh credentials):**
-1. Buka Supabase Dashboard → SQL Editor → jalankan `001_initial_schema.sql`
-2. Copy URL + anon key dari Settings → API ke `apps/web/.env.local`
-3. Regenerate types: `npx supabase gen types typescript --local > packages/supabase/src/types.ts`
+**Fix:** Kunci versi nativewind ke `"4.1.23"` (versi terakhir sebelum bug ini muncul), bukan `"^4.0.0"`. Setelah `pnpm install` ulang, `react-native-css-interop` ikut ter-resolve ke versi aman (0.1.22).
 
-**Status:** Package `@klip/supabase` sudah dibuat, `@klip/api` sudah refactor ke Supabase, typecheck + lint + build pass.
+**Pelajaran:**
+- Untuk dependency yang punya riwayat breaking change di minor version (nativewind termasuk salah satu), **jangan pakai `^` range** — kunci versi exact.
+- Error "Cannot find module 'X/plugin'" saat Metro bundling sering berarti ada **dependency transitif yang ke-upgrade tanpa sengaja**, bukan berarti file itu perlu diinstall manual — cek dulu apakah ini known issue di GitHub sebelum coba fix manual.
+- `pnpm add <package>` (termasuk yang dijalankan otomatis oleh `expo install`) bisa memicu re-resolusi dependency lain lewat lockfile, jadi selalu jalankan `pnpm typecheck` + coba build lokal setelah ada perubahan dependency, sebelum push ke EAS.
 
 ---
 

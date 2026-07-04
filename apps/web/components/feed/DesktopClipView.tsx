@@ -168,14 +168,6 @@ export function DesktopClipView({ clip }: { clip: Clip }) {
           >
             <MoreHorizontal className="h-4 w-4" />
           </button>
-
-          {/* Progress */}
-          <div className="absolute inset-x-0 bottom-0 h-1 bg-white/20">
-            <div
-              className="h-full bg-tikpink transition-[width] duration-150"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
         </div>
 
         {/* Caption row below video */}
@@ -208,6 +200,14 @@ export function DesktopClipView({ clip }: { clip: Clip }) {
           <div className="mt-2 flex items-center gap-2 text-xs text-foreground/85">
             <Music2 className="h-3.5 w-3.5" aria-hidden />
             <span className="truncate">{clip.song}</span>
+          </div>
+
+          {/* Progress — di bawah caption/info, sesuai urutan yang diminta */}
+          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-white/20">
+            <div
+              className="h-full bg-tikpink transition-[width] duration-150"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
       </div>
